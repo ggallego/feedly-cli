@@ -1,0 +1,33 @@
+apply plugin: 'eclipse'
+apply plugin: 'groovy'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.3'
+	compile 'commons-cli:commons-cli:1.2'
+	compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
+	compile 'oauth.signpost:signpost-core:1.2.1.2'
+	compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2'
+}
+
+mainClassName = "Main"
+run {
+    // Use $ gradle run "-Pargs=-h"
+	if (project.hasProperty('args')) {
+		args project.args.split('\\s+')
+	}
+}
+
+task uberjar(type: Jar, dependsOn:[':compileGroovy']) {
+    from files(sourceSets.main.output.classesDir)
+	from files(sourceSets.main.resources)
+    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
