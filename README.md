@@ -18,8 +18,8 @@ WIP
 
 ### From Source
 
-`gradle uberjar`
-`java -jar build/libs/feedly-cli.jar`
+* `$ gradle uberjar`
+* `$ java -jar build/libs/feedly-cli.jar`
 
 ## Feedly Sign In Method
 
@@ -28,16 +28,15 @@ Currently using [Feednix](https://github.com/Jarkore/Feednix) method, see [here]
 ## Usage
 
 Available options (use -h for help):
- -dev,--devtoken <TOKEN>   Feedly developer token (see feednix usage).
- -f,--fileconfig <arg>     Path to config file (default:
-                           feedly.properties)
- -h,--help                 Prints this help message.
- -labels                   Fetch labels from feedly.
- -max,--maxposts <NNN>     Fetch <number> posts from feedly (default: 50)
- -posts <LABEL>            Fetch posts from feedly label.
- -tags                     Fetch tags from feedly.
- -uid,--userid <id>        Feedly userid.
- -v,--verbose              Output debug messages
+* -dev,--devtoken <TOKEN>   Feedly developer token (see feednix usage).
+* -f,--fileconfig <arg>     Path to config file (default: feedly.properties)
+* -h,--help                 Prints this help message.
+* -labels                   Fetch labels from feedly.
+* -max,--maxposts <NNN>     Fetch <number> posts from feedly (default: 50)
+* -posts <LABEL>            Fetch posts from feedly label.
+* -tags                     Fetch tags from feedly.
+* -uid,--userid <id>        Feedly userid.
+* -v,--verbose              Output debug messages
 
 ##Changelog
 
