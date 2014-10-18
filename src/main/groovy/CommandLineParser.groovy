@@ -36,6 +36,7 @@ class CommandLineParser {
 		props.labels = opts.labels ?: props.labels
 		props.tags = opts.tags ?: props.tags
 		props.posts =  opts.posts ?: props.posts
+		props.media = opts.media ?: props.media
 		props.verbose = opts.v ?: props.verbose
 
 		// Handle developertoken opt
@@ -75,6 +76,11 @@ class CommandLineParser {
 			props.posts = ''
 		}
 
+		// Handle media opt
+		if (!props.media instanceof ConfigObject) {
+			props.media = false
+		}
+
 		// Handle verbose opt
 		if (!props.verbose instanceof ConfigObject) {
 			props.verbose = false
@@ -105,6 +111,7 @@ class CommandLineParser {
 			labels("Fetch labels from feedly.")
 			tags("Fetch tags from feedly.")
 			posts("Fetch posts from feedly label.", args: 1, argName: 'LABEL')
+			media("Also download the embedded media (podcasts and youtube content) from posts")
 			v(longOpt: 'verbose', 'Output debug messages' )
 			h(longOpt: 'help', "Prints this help message.")
 		}

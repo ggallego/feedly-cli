@@ -8,12 +8,18 @@ class Feedly {
 	
 	def devtoken = ""
 	def userid = ""
+	def verbose = false
 	def _labels = [:]
 	def _tags = [:]
 
 	Feedly(devtoken, userid) {
+		Feedly(devtoken, userid, false)
+	}
+
+	Feedly(devtoken, userid, verbose) {
 		this.devtoken = devtoken
 		this.userid = userid
+		this.verbose = verbose
 	}
 
 	def Map getLabels() {
@@ -55,11 +61,18 @@ class Feedly {
 		}
 		return _posts;
 	}
+	
+	def boolean markPostUnsaved(postId) {
+		
+	}
 
 	// ########## private behaviour
 	
 	private List getVideoUrls(streamContent) {
-		return null
+		def embeddedVideo = []
+		def matcher = streamContent =~ /"(((https?:\/\/)?)(www\.)?(youtube\.com|youtu.be|youtube)\/.+)"/
+		matcher.each {embeddedVideo << it[1]}
+		return embeddedVideo.isEmpty()?null:embeddedVideo
 	}
 
 	private Object getDataFromPath(path, queryString) {
@@ -67,7 +80,7 @@ class Feedly {
 		feedly.headers.Authorization = "OAuth " + devtoken
 		feedly.contentType = JSON
 		def resp = feedly.get(path: path, queryString: queryString)
-		//printResponse(resp)
+		if (verbose) printResponse(resp)
 		return resp.data
 	}
 	
