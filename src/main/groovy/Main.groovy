@@ -18,7 +18,6 @@ class Main {
 			if (props.media) {
 				// Nao esta pegando o nerdologia!
 				posts.each { post -> post.value.enclosure?.each { 
-						println "Downloading file [${it.href.tokenize('/')[-1]}] with [${it.length}]."
 						if (Downloader.download(it.href, it.length, it.type)) {
 							feedly.markPostUnsaved(post.key)
 						}
