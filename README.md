@@ -1,6 +1,6 @@
 feedly-cli
 ==========
-[![Build Status](https://travis-ci.org/ggallego/feedly-cli.svg?branch=v0.1)](https://travis-ci.org/ggallego/feedly-cli)
+[![Build Status](https://travis-ci.org/ggallego/feedly-cli.svg?branch=master)](https://travis-ci.org/ggallego/feedly-cli)
 
 A groovy command line client for [Feedly](http://feedly.com/) inspired on Jarkore works on [Feednix](https://github.com/Jarkore/Feednix).
 
