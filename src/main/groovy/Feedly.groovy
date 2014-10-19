@@ -33,7 +33,7 @@ class Feedly {
 		return _labels
 	}
 
-	def Map getTags() {
+	def Map<String, String> getTags() {
 		if (_tags.isEmpty()) {
 			getDataFromPath("tags", "").each {
 				if (it.label != null)
@@ -43,7 +43,7 @@ class Feedly {
 		return _tags
 	}
 
-	def Map getPosts(String label, int maxPosts) {
+	def Map<String, Object> getPosts(String label, int maxPosts) {
 		def streamId = labels[label]
 		if (streamId == null)
 			streamId = tags[label]
