@@ -1,6 +1,7 @@
 import static groovy.json.JsonOutput.*
 import org.apache.commons.cli.Option
 
+
 class CommandLineParser {
 
 	def Properties parse(String... args) {
@@ -30,14 +31,16 @@ class CommandLineParser {
 		}
 
 		def props = new ConfigSlurper().parse(jprops)
-		props.devtoken = opts.dev ?: props.devtoken
-		props.userid = opts.uid ?: props.userid
-		props.maxposts = opts.max ?: props.maxposts
-		props.labels = opts.labels ?: props.labels
-		props.tags = opts.tags ?: props.tags
-		props.posts =  opts.posts ?: props.posts
-		props.media = opts.media ?: props.media
-		props.verbose = opts.v ?: props.verbose
+		props.with {
+			devtoken = opts.dev ?: props.devtoken
+			userid = opts.uid ?: props.userid
+			maxposts = opts.max ?: props.maxposts
+			labels = opts.labels ?: props.labels
+			tags = opts.tags ?: props.tags
+			posts =  opts.posts ?: props.posts
+			media = opts.media ?: props.media
+			verbose = opts.v ?: props.verbose
+		}
 
 		// Handle developertoken opt
 		if (props.devtoken.size() == 0 || props.devtoken.isEmpty()) {
@@ -62,12 +65,12 @@ class CommandLineParser {
 		}
 
 		// Handle labels opt
-		if (!props.labels instanceof ConfigObject) {
+		if (props.labels in ConfigObject) {
 			props.labels = false
 		}
 
 		// Handle tags opt
-		if (!props.tags instanceof ConfigObject) {
+		if (props.tags in ConfigObject) {
 			props.tags = false
 		}
 
@@ -77,12 +80,12 @@ class CommandLineParser {
 		}
 
 		// Handle media opt
-		if (!props.media instanceof ConfigObject) {
+		if (props.media in ConfigObject) {
 			props.media = false
 		}
 
 		// Handle verbose opt
-		if (!props.verbose instanceof ConfigObject) {
+		if (props.verbose in ConfigObject) {
 			props.verbose = false
 		}
 

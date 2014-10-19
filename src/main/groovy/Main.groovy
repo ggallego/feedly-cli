@@ -1,25 +1,24 @@
-import static groovy.json.JsonOutput.*
-
 class Main {
 
 	static main(args) {
+		
 		def props = new CommandLineParser().parse(args)
+		
 		def feedly = new Feedly(props.devtoken, props.userid, props.verbose)
 		
 		if (props.labels)
-			println "Labels => " + prettyPrint(toJson(feedly.getLabels()))
+			Printer.printAsJson("Labels", feedly.getLabels())
 			
 		if (props.tags)
-			println "Tags => " + prettyPrint(toJson(feedly.getTags()))
+			Printer.printAsJson("Tags", feedly.getTags())
 
 		if (!props.posts.isEmpty()) {
 			def posts = feedly.getPosts(props.posts, props.maxposts)
-			println "Posts [$props.posts] => " + prettyPrint(toJson(posts))
+			Printer.printAsJson("Posts [$props.posts]", posts)
 			if (props.media) {
-				// Nao esta pegando o nerdologia!
 				posts.each { post -> post.value.enclosure?.each { 
 						if (Downloader.download(it.href, it.length, it.type)) {
-							feedly.markPostUnsaved(post.key)
+							feedly.unsavePost(post.key)
 						}
 				}}
 			}

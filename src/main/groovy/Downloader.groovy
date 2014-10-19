@@ -2,15 +2,15 @@ import java.util.zip.GZIPInputStream;
 
 class Downloader {
 
-	static boolean download(url) {
+	static boolean download(String url) {
 		download(url, null)
 	}
 
-	static boolean download(url, length) {
+	static boolean download(String url, long length) {
 		download(url, null, null)
 	}
 
-	static boolean download(url, length, type) {
+	static boolean download(String url, long length, String type) {
 		println "Downloading file [${url.tokenize('/')[-1]}] with informed [${url.length}] bytes."
 		def file = new FileOutputStream(url.tokenize("/")[-1])
 		def out = new BufferedOutputStream(file)
