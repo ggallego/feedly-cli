@@ -1,14 +1,17 @@
 import static groovyx.net.http.ContentType.*
 import groovyx.net.http.RESTClient
 
+
 class Feedly {
+	
+	def static DEFAULT_MAX_POSTS = 50
 	
 	private devtoken = ""
 	private userid = ""
 	private verbose = false
 	
-	private _labels = [:]
-	private _tags = [:]
+	private _labels = []
+	private _tags = []
 
 	Feedly(String devtoken, String userid) {
 		this(devtoken, userid, false)
@@ -20,43 +23,51 @@ class Feedly {
 		this.verbose = verbose
 	}
 
-	def Map<String, String> getLabels() {
+	def List getLabels() {
 		if (_labels.isEmpty()) {
-		    _labels["All"] = "user/" + userid + "/category/global.all";
-		    _labels["Saved"] = "user/" + userid + "/tag/global.saved";
-		    _labels["Uncategorized"] = "user/" + userid + "/category/global.uncategorized";
+		    _labels << [id: "user/$userid/category/global.all", 			label: "All"];
+		    _labels << [id: "user/$userid/tag/global.saved",				label: "Saved"];
+		    _labels << [id: "user/$userid/category/global.uncategorized",	label: "Uncategorized"];
+			if (verbose) println "[INFO] Retrieving Labels..."
 			getDataFromPath("categories", "").each {
 				if (it.label != null)
-					_labels[it.label] = it.id
+					_labels << [id: it.id, label: it.label]
 			}
 		}
 		return _labels
 	}
 
-	def Map<String, String> getTags() {
+	def List getTags() {
 		if (_tags.isEmpty()) {
+			if (verbose) println "[INFO] Retrieving Tags..."
 			getDataFromPath("tags", "").each {
 				if (it.label != null)
-					_tags[it.label] = it.id
+					_tags << [id: it.id, label: it.label]
 			}
 		}
 		return _tags
 	}
 
-	def Map<String, Object> getPosts(String label, int maxPosts) {
-		def streamId = labels[label]
+	def List getPosts(String label) {
+		getPosts(label, DEFAULT_MAX_POSTS)
+	}
+
+	def List getPosts(String label, Integer maxPosts) {
+		def streamId = labels.find{it.label == label}?.id
 		if (streamId == null)
-			streamId = tags[label]
-		def _posts = [:]
-		getDataFromPath("streams/contents", "unreadOnly=true&ranked=newest&count=" + maxPosts +"&streamId=" + streamId).items.each {
-			_posts[it.id] = [origin:	it.origin?.title,
-							 title:     it.title, 
-							 summary:   it.summary?.content,
-							 published: it.published,
-							 enclosure: it.enclosure,
-							 content:   it.content?.content,
+			streamId = tags.find{it.label == label}?.id
+		def _posts = []
+		if (verbose) println "[INFO] Retrieving [$maxPosts] Posts[${label}]..."
+		def data = getDataFromPath("streams/contents", "unreadOnly=true&ranked=newest&count=" + maxPosts +"&streamId=" + streamId)?.items.each {
+			_posts << [	id: it.id,
+						origin:	it.origin?.title,
+						title:     it.title, 
+						summary:   it.summary?.content,
+						published: it.published,
+						enclosure: it.enclosure,
+						content:   it.content?.content,
 // Nao esta pegando o nerdologia!
-							 embeddedVideo: getVideoUrls(it.content?.content)]
+						embeddedVideo: getVideoUrls(it.content?.content)]
 		}
 		return _posts;
 	}

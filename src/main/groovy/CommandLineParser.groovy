@@ -1,6 +1,4 @@
 import static groovy.json.JsonOutput.*
-import org.apache.commons.cli.Option
-
 
 class CommandLineParser {
 
@@ -59,9 +57,9 @@ class CommandLineParser {
 			props.maxposts = props.maxposts.toInteger()
 		} catch (Exception e) {
 			if (!props.maxposts.isEmpty() && !props.maxposts.isNumber()) {
-				println "[WARN] Number of posts ${props.maxposts} is not a valid number. Reverting to default [50]."
+				println "[WARN] Number of posts [${props.maxposts}] is not a valid number. Reverting to default [$Feedly.DEFAULT_MAX_POSTS]."
 			}
-			props.maxposts = 50
+			props.maxposts = Feedly.DEFAULT_MAX_POSTS
 		}
 
 		// Handle labels opt
@@ -110,7 +108,7 @@ class CommandLineParser {
 			f(longOpt:  'fileconfig', 'Path to config file (default: feedly.properties)', args: 1)
 			dev(longOpt: 'devtoken', 'Feedly developer token (see feednix usage).', args: 1, argName: 'TOKEN')
 			uid(longOpt: 'userid', 'Feedly userid.', args: 1, argName: 'id')
-			max(longOpt: 'maxposts', 'Fetch <number> posts from feedly (default: 50)', args: 1, argName: 'NNN')
+			max(longOpt: 'maxposts', 'Fetch <number> posts from feedly (default: $Feedly.DEFAULT_MAX_POSTS)', args: 1, argName: 'NNN')
 			labels("Fetch labels from feedly.")
 			tags("Fetch tags from feedly.")
 			posts("Fetch posts from feedly label.", args: 1, argName: 'LABEL')

@@ -12,10 +12,10 @@ class Printer {
 		println("<===============")
 	}
 	
-	static void printAsJson(String label, Map map) {
+	static void printAsJson(String label, List list) {
 		if (label != null)
 			print("$label => ")
-		println prettyPrint(toJson(map))
+		println prettyPrint(toJson(list))
 	}
 
 }
