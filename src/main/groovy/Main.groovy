@@ -16,7 +16,7 @@ class Main {
 			def posts = feedly.getPosts(props.posts, props.maxposts)
 			Printer.printAsJson("Posts [$props.posts]", posts)
 			if (props.media) {
-				posts.each { post -> post.value.enclosure?.each { 
+				posts.each { post -> post.enclosure?.each { 
 						if (Downloader.download(it.href, it.length, it.type)) {
 							feedly.unsavePost(post.key)
 						}
