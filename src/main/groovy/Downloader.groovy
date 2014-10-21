@@ -11,6 +11,17 @@ class Downloader {
 		download(url, null, null)
 	}
 
+	/*
+	static boolean _download(String url, long length, String type) {
+		new DownloadAction().execute(new URL(url))
+		return true
+	}
+	static boolean _download(String url, long length, String type) {
+		new Wget("url", "filename", true)
+		return true
+	}
+	*/
+
 	static boolean download(String url, long length, String type) {
 		def filename = url.tokenize("/")[-1]
 		filename = filename.replaceAll(/\&.*/, "")
