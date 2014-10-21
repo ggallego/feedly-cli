@@ -33,37 +33,50 @@ class FeedlyFullPostsTest {
 	}
 
 	@Test
-	void shouldReturnNoPostsGivenAnUndefinedLabelAndUndefinedTag() {
+	void givenAnUndefinedLabelAndUndefinedTagShouldReturnNoPosts() {
 		assert feedly.getPosts('UndefinedLabelAndUndefinedTag').size() == 0
 	}
 
 	@Test
-	void shouldReturnNoPostsGivenALabelWithEmptyItems() {
+	void givenALabelWithEmptyPostsShouldReturnNoPosts() {
 		assert feedly.getPosts('Podcast-Various').size() == 0
 	}
 
 	@Test
-	void shouldReturnNoPostsGivenATagWithEmptyItems() {
-		assert feedly.getPosts('Forever list').size() == 0
+	void givenATagWithEmptyPostsShouldReturnNoPosts() {
+		assert feedly.getPosts('Forever-list').size() == 0
 	}
 
 	@Test
-	void shouldReturnNoPostsGivenALabelWithItemsAndZeroMaxPosts() {
+	void givenALabelWithPostsAndZeroMaxPostsShouldReturnNoPosts() {
 		assert feedly.getPosts('Saved', 0).size() == 0
 	}
 
 	@Test
-	void shouldReturnNoPostsGivenATagWithItemsAndZeroMaxPosts() {
-		assert feedly.getPosts('Read list', 0).size() == 0
+	void givenATagWithPostsAndZeroMaxPostsShouldReturnNoPosts() {
+		assert feedly.getPosts('Read-list', 0).size() == 0
 	}
 
 	@Test
-	void shouldReturnAnNumberOfPostsGivenALabelAndARestrictedNumberOfMaxPosts() {
-		assert feedly.getPosts('Saved', 1).size() == 1
+	void givenALabelWithPostsAndASmallMaxPostsShouldReturnPostsEqualsToMaxPosts() {
+		assert feedly.getPosts('Saved', 2).size() == 2
 	}
 
 	@Test
-	void shouldReturnARescrictedNumberOfPostsGivenALabelAndALargeNumberOfMaxPosts() {
-		assert feedly.getPosts('Saved', 50).size() < 50
+	void givenALabelWithPostsAndALargeMaxPostsShouldReturnLessPostsThanTheMaxPosts() {
+		def size = feedly.getPosts('Saved', 50).size()
+		assert size > 0 && size < 50
 	}
+
+	@Test
+	void givenATagWithPostsAndASmallMaxPostsShouldReturnPostsEqualsToMaxPosts() {
+		assert feedly.getPosts('Read-list', 2).size() == 2
+	}
+
+	@Test
+	void givenATagWithPostsAndALargeMaxPostsShouldReturnLessPostsThanTheMaxPosts() {
+		def size = feedly.getPosts('Read-list', 50).size()
+		assert size > 0 && size < 50
+	}
+
 }

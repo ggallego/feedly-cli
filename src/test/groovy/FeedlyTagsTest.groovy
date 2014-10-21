@@ -33,8 +33,8 @@ class FeedlyFullTagsTest {
 	@Test
 	void shouldReturnAllTags() {
 		assert feedly.tags.size() == 2
-		assert feedly.tags.find{it.label == "Forever list"}
-		assert feedly.tags.find{it.label == "Read list"}
+		assert feedly.tags.find{it.label == "Forever-list"}
+		assert feedly.tags.find{it.label == "Read-list"}
 	}
 
 }

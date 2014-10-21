@@ -16,8 +16,8 @@ class FakeData {
 
 	def static TAGS_FULL =
 	[
-		[label:'Forever list', id:'user/userid/tag/Forever list'],
-		[label:'Read list', id:'user/userid/tag/Read list']
+		[label:'Forever-list', id:'user/userid/tag/Forever-list'],
+		[label:'Read-list', id:'user/userid/tag/Read-list']
 	]
 
 	def static getPOSTS(String path, String queryString) {
@@ -156,6 +156,57 @@ class FakeData {
 								content: [content: null],
 							]
 						]
+					]
+					return [items: posts[0..(maxPosts>posts.size?posts.size:maxPosts)-1]]
+				}
+				def tags = FakeData.TAGS_FULL
+				def tag = tags.find{it.id == streamId}
+				def lll = tag?.label
+				if (lll == "Read-list") {
+					def posts = [
+						[id: "p5fi0FUV9nev8DZquGT87L8jzh+LcNTgUYpjLv1cskU=_148e3e856f2:1894ea:81bef23e",
+							origin: [title: "Javalobby - The heart of the Java developer community"],
+							title: "A Connected Retail World Requires Digital Transformation, APIs, and Platforms",
+							summary: [content: """WSO2 is helping enterprise retail organizations fulfill their vision of digital 
+									transformation and connect their business to the world across\nboth digital and brick and 
+									mortar channels. WSO2 is pioneering how the Industrial Internet of Things, Big Data, 
+									API-centric architecture, and Cloud services augment digital business strategy and 
+									facilitate execution.\nPreview Text:\u00a0\n...<img height=\"1\" width=\"1\" 
+									src=\"http://feeds.feedburner.com/~r/javalobby/frontpage/~4/6rh1dADnnDw\">"""],
+							 published: 1412575200000,
+							 enclosure: null,
+							 content: [content: null]
+						],
+						[id: "yBgctNAEjvfuvhD7dCQiam5tKoE5i8N9AkrVKUzgUQM=_14914121be1:f8b76a:113fbbc6",
+							origin: [title: "Jovem Nerd"],
+							title: "Assista ao curta assustador e vencedor do Festival Internacional do Minuto",
+							summary: [content: """Como vamos mostrar aqui o vencedor do Festival Internacional do Minuto, 
+									nada mais justo do que manter essa not\u00edcia r\u00e1pida. O Festival Internacional do Minuto, 
+									Filminute, declarou como vencedor o filme, Tuck Me In. Dirigido por Ignacio F. 
+									Rod\u00f3. Contando em exatamente um minuto, uma sensacional 
+									hist\u00f3ria de terror. Voc\u00ea ainda pode conferir os outros [\u2026]"""],
+							published: 1413379497000,
+							enclosure: null,
+							content: [content: """<p><a href=\"http://crimsontyphoon.jovemnerd.com.br/wp-content/uploads/ads_tuck.jpg\">
+									<img height=\"350\" alt=\"ads_tuck\" width=\"590\" 
+									src=\"http://crimsontyphoon.jovemnerd.com.br/wp-content/uploads/ads_tuck.jpg\">
+									</a></p>\n<p></p>\n<p>Como vamos mostrar aqui o vencedor do Festival Internacional do 
+									Minuto, nada mais justo do que manter essa not\u00edcia r\u00e1pida.</p>\n<p>
+									O Festival Internacional do Minuto, Filminute, declarou como vencedor o filme, Tuck Me In. 
+									Dirigido por Ignacio F. Rod\u00f3. Contando em exatamente um minuto, uma sensacional 
+									hist\u00f3ria de terror.</p>\n<p>Voc\u00ea ainda pode conferir os outros filmes do 
+									festival no site oficial:\u00a0<a href=\"http://www.filminute.com\">
+									www.filminute.com</a></p>\n<p>Veja o v\u00eddeo:</p>\n<p>
+									<iframe height=\"332\" width=\"590\" src=\"http://www.youtube.com/embed/gNQIdEv-Emo?rel=0\">
+									</iframe></p>\n<p><em>Via YouTube</em></p>\n<hr size=\"1\">\n<p><img alt=\"Mau\"
+									src=\"http://crimsontyphoon.jovemnerd.com.br/wp-content/uploads/avatar-mau.jpg\"> 
+									<a target=\"_blank\" href=\"http://www.twitter.com/sitedomau\">Mau</a> ficou bolado</p>
+									\n<p><span>.</span></p>\n<p><em>Ei nerd! Siga o Jovem Nerd no 
+									<a href=\"http://twitter.com/JovemNerd\">Twitter</a>, <a href=\"http://facebook.com/JovemNerd\">
+									Facebook</a>, <a href=\"http://youtube.com/JovemNerd\">YouTube</a> e 
+									<a href=\"http://instagram.com/alottoni\">Instagram</a>, foi o 
+									<a href=\"http://twitter.com/Azaghal\">Azaghal </a>que mandou!</em></p>\n<p><span>.</span></p>"""],
+						]					
 					]
 					return [items: posts[0..(maxPosts>posts.size?posts.size:maxPosts)-1]]
 				}

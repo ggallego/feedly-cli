@@ -56,6 +56,7 @@ class Feedly {
 		def streamId = labels.find{it.label == label}?.id
 		if (streamId == null)
 			streamId = tags.find{it.label == label}?.id
+		streamId = streamId?.replaceAll(' ', '%20')
 		def _posts = []
 		if (verbose) println "[INFO] Retrieving [$maxPosts] Posts[${label}]..."
 		def data = getDataFromPath("streams/contents", "unreadOnly=true&ranked=newest&count=" + maxPosts +"&streamId=" + streamId)?.items.each {
