@@ -18,7 +18,7 @@ class Main {
 			if (props.media) {
 				posts.each { post -> post.enclosure?.each { 
 						if (Downloader.download(it.href, it.length, it.type)) {
-							feedly.unsavePost(post.key)
+							feedly.unsavePost(post.id)
 						}
 				}}
 			}

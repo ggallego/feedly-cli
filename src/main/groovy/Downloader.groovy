@@ -1,51 +1,61 @@
 import static groovyx.net.http.Method.*
+
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
+import org.apache.commons.lang.math.RandomUtils;
+
 import groovyx.net.http.HTTPBuilder
 
 class Downloader {
 
 	static boolean download(String url) {
-		download(url, null)
+		download(url, -1)
 	}
 
 	static boolean download(String url, long length) {
-		download(url, null, null)
+		download(url, length, "")
 	}
-
-	/*
-	static boolean _download(String url, long length, String type) {
-		new DownloadAction().execute(new URL(url))
-		return true
-	}
-	static boolean _download(String url, long length, String type) {
-		new Wget("url", "filename", true)
-		return true
-	}
-	*/
 
 	static boolean download(String url, long length, String type) {
-		def filename = url.tokenize("/")[-1]
+		String filename = url.tokenize("/")[-1]
 		filename = filename.replaceAll(/\&.*/, "")
 		filename = filename.replaceAll(/\?.*/, "")
-		
-		def filesize = length
-		def resource = new HTTPBuilder(url).request(HEAD) {
-			response.sucess = {resp -> filesize = resp.headers.'Content-Length'}
-			response.failure = {resp -> return false}
+		File file = new File(filename)
+		while (file.exists()) {
+			print("[WARN] File ${filename} exists, generating new filename.");
+			filename += ".${RandomUtils.nextInt()}"
+			file = new File(filename)
 		}
-		println "Downloading file [$filename] with [$filesize] bytes."
+			
+		URLConnection connection = new URL(url).openConnection();
+		DataInputStream instream = new DataInputStream(connection.getInputStream());
+		OutputStream outstream = new FileOutputStream(filename);
+		
+		int bytes = 0;
+		int filesize = connection.getContentLength()?:length;
+		
+		try {
+			while (true) {
+				outstream.write(instream.readUnsignedByte());
+				bytes++;
+				if (bytes % 100000 == 0)
+					print("\rDownloading [$filename] with ${bytes} bytes... of ${filesize} bytes.");
+			}
+		} catch (EOFException e) {
+			outstream.close();
+			println("\rDownloaded [$filename] with ${bytes} bytes.                                   ");
+		}
 
-		def file = new FileOutputStream(filename)
-		def out = new BufferedOutputStream(file)
-		out << new URL(url).openStream()
-		out.close()
-		
-		def checkfile = new File(filename)
-		if (checkfile.size() == filesize) {
-			print "[OK]"
-			return true
+		if (file.size() != filesize) {
+			println "[WARN] Something went wrong... received ${file.size()} does not match calculated ${filesize}}"
+			return false
 		}
-		print "[ERROR]"
-		return false
+		return true
 	}
 	
 }

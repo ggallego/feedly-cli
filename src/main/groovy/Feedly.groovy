@@ -68,25 +68,38 @@ class Feedly {
 						enclosure: it.enclosure,
 						content:   it.content?.content,
 // Nao esta pegando o nerdologia!
-						embeddedVideo: getVideoUrls(it.content?.content)]
+						embeddedVideo: getVideoUrls(it.content?.content),
+						tags: it.tags,
+						labels: it.labels]
 		}
 		return _posts;
 	}
 	
 	def boolean tagPost(postId) {
-		
+		println "[WARN] tagPost was not implemented yet."
 	}
 
 	def boolean untagPost(postId) {
-		
+		println "[WARN] untagPost was not implemented yet."
 	}
 
 	def boolean savePost(postId) {
-		
+		println "[WARN] savePost was not implemented yet."
 	}
 
 	def boolean unsavePost(postId) {
-		
+		def feedly = new RESTClient("https://cloud.feedly.com/v3/")
+		feedly.headers.Authorization = "OAuth " + devtoken
+		feedly.contentType = JSON
+		def resp = feedly.post(	path: 'markers', 
+								body: [	"action": "markAsUnsaved",
+										"entryIds": [postId],
+										"type": "entries"])
+		if (resp.status != 200) {
+			println "[WARN] could not unsave post $postId, please check your feedly site."
+			return false
+		}
+		return true
 	}
 
 	// ########## private behaviour
