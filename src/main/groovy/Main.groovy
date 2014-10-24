@@ -17,7 +17,7 @@ class Main {
 			Printer.printAsJson("Posts [$props.posts]", posts)
 			if (props.media) {
 				posts.each { post -> post.enclosure?.each { 
-						if (Downloader.download(it.href, it.length, it.type)) {
+						if (Downloader.download(it.href, it.length)) {
 							feedly.unsavePost(post.id)
 						}
 				}}

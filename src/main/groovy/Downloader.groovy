@@ -17,11 +17,7 @@ class Downloader {
 		download(url, -1)
 	}
 
-	static boolean download(String url, long length) {
-		download(url, length, "")
-	}
-
-	static boolean download(String url, long length, String type) {
+	static boolean download(String url, Integer length) {
 		String filename = url.tokenize("/")[-1]
 		filename = filename.replaceAll(/\&.*/, "")
 		filename = filename.replaceAll(/\?.*/, "")
