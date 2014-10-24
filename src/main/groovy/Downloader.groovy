@@ -40,15 +40,15 @@ class Downloader {
 				outstream.write(instream.readUnsignedByte());
 				bytes++;
 				if (bytes % 100000 == 0)
-					print("\rDownloading [$filename] with ${bytes} bytes... of ${filesize} bytes.");
+					print("\rDownloading [$filename] with [${filesize}] bytes. Statistics: percentage [${Math.round(bytes*100/filesize)}%], bytes [${bytes}].");
 			}
 		} catch (EOFException e) {
 			outstream.close();
-			println("\rDownloaded [$filename] with ${bytes} bytes.                                   ");
+			println("\rDownloaded [$filename] with [${bytes}] bytes.                                                                        ");
 		}
 
 		if (file.size() != filesize) {
-			println "[WARN] Something went wrong... received ${file.size()} does not match calculated ${filesize}}"
+			println "[WARN] Something went wrong... received [${file.size()}] which does not match calculated size of [${filesize}]."
 			return false
 		}
 		return true
