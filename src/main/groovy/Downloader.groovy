@@ -48,7 +48,7 @@ class Downloader {
 		}
 
 		if (file.size() != filesize) {
-			println "[WARN] Something went wrong... received ${file.size()} does not match calculated ${filesize}}"
+			println "[WARN] Something went wrong... received [${file.size()}] which does not match calculated size of [${filesize}]."
 			return false
 		}
 		return true
