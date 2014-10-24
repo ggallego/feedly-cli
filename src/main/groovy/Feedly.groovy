@@ -57,7 +57,7 @@ class Feedly {
 		if (streamId == null)
 			streamId = tags.find{it.label == label}?.id
 		// TODO: fazer um escape mais completo disso. Alias, precisa?
-		streamId = streamId?.replaceAll(' ', '%20')
+		streamId = Downloader.escapeIllegalURLCharacters(streamId)
 		def _posts = []
 		if (verbose) println "[INFO] Retrieving [$maxPosts] Posts[${label}]..."
 		def data = getDataFromPath("streams/contents", "unreadOnly=true&ranked=newest&count=" + maxPosts +"&streamId=" + streamId)?.items.each {
@@ -69,7 +69,7 @@ class Feedly {
 						enclosure: it.enclosure,
 						content:   it.content?.content,
 						// TODO: Nao esta pegando o nerdologia!
-						embeddedVideo: getVideoUrls(it.content?.content),
+						embeddedVideo: getVideoUrls(it.summary?.content, it.content?.content),
 						tags: it.tags,
 						labels: it.labels]
 		}
@@ -105,11 +105,15 @@ class Feedly {
 
 	// ########## private behaviour
 	
-	private List getVideoUrls(streamContent) {
+	private List getVideoUrls(String summary, String content) {
+		return getVideoUrls(summary) + getVideoUrls(content)
+	}
+
+	private List getVideoUrls(String text) {
 		def embeddedVideo = []
-		def matcher = streamContent =~ /"(((https?:\/\/)?)(www\.)?(youtube\.com|youtu.be|youtube)\/.+)"/
+		def matcher = text =~ /"(((https?:\/\/)?)(www\.)?(youtube\.com|youtu.be|youtube)\/(watch|embed).+?)"/
 		matcher.each {embeddedVideo << it[1]}
-		return embeddedVideo.isEmpty()?null:embeddedVideo
+		return embeddedVideo.unique()
 	}
 
 	private Object getDataFromPath(String path, String queryString) {

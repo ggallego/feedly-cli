@@ -37,6 +37,7 @@ class CommandLineParser {
 			tags = opts.tags ?: props.tags
 			posts =  opts.posts ?: props.posts
 			media = opts.media ?: props.media
+			youtube = opts.youtube ?: props.youtube
 			verbose = opts.v ?: props.verbose
 		}
 
@@ -82,6 +83,11 @@ class CommandLineParser {
 			props.media = false
 		}
 
+		// Handle youtube opt
+		if (props.youtube in ConfigObject) {
+			props.youtube = false
+		}
+
 		// Handle verbose opt
 		if (props.verbose in ConfigObject) {
 			props.verbose = false
@@ -112,7 +118,8 @@ class CommandLineParser {
 			labels("Fetch labels from feedly.")
 			tags("Fetch tags from feedly.")
 			posts("Fetch posts from feedly label.", args: 1, argName: 'LABEL')
-			media("Also download the embedded media (podcasts and youtube content) from posts")
+			media("Also download embedded media (mainly podcasts) from posts")
+			youtube("Also download youtube video from posts")
 			v(longOpt: 'verbose', 'Output debug messages' )
 			h(longOpt: 'help', "Prints this help message.")
 		}
