@@ -18,6 +18,8 @@ class Downloader {
 	}
 
 	static boolean download(String url, Integer length) {
+		//url = escapeIllegalURLCharacters(url)		
+		
 		String filename = url.tokenize("/")[-1]
 		filename = filename.replaceAll(/\&.*/, "")
 		filename = filename.replaceAll(/\?.*/, "")
@@ -27,14 +29,21 @@ class Downloader {
 			filename += ".${RandomUtils.nextInt()}"
 			file = new File(filename)
 		}
-			
+		
+
 		URLConnection connection = new URL(url).openConnection();
-		DataInputStream instream = new DataInputStream(connection.getInputStream());
-		OutputStream outstream = new FileOutputStream(filename);
+		DataInputStream instream = null
+		try {
+			instream = new DataInputStream(connection.getInputStream());
+		} catch (FileNotFoundException e) {
+			println "[WARN] Something went wrong... file [${filename}] not found in server."
+			return false
+		}
 		
 		int bytes = 0;
 		int filesize = connection.getContentLength()?:length;
 		
+		OutputStream outstream = new FileOutputStream(filename);
 		try {
 			while (true) {
 				outstream.write(instream.readUnsignedByte());
@@ -53,7 +62,21 @@ class Downloader {
 		}
 		return true
 	}
+
+	// ####################
 	
+	private static String escapeIllegalURLCharacters(String string){
+		try {
+			String decodedURL = URLDecoder.decode(string, "UTF-8");
+			URL url = new URL(decodedURL);
+			URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+			return uri.toString();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+		
 }
 
 

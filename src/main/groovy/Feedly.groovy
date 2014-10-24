@@ -56,6 +56,7 @@ class Feedly {
 		def streamId = labels.find{it.label == label}?.id
 		if (streamId == null)
 			streamId = tags.find{it.label == label}?.id
+		// TODO: fazer um escape mais completo disso. Alias, precisa?
 		streamId = streamId?.replaceAll(' ', '%20')
 		def _posts = []
 		if (verbose) println "[INFO] Retrieving [$maxPosts] Posts[${label}]..."
@@ -67,7 +68,7 @@ class Feedly {
 						published: it.published,
 						enclosure: it.enclosure,
 						content:   it.content?.content,
-// Nao esta pegando o nerdologia!
+						// TODO: Nao esta pegando o nerdologia!
 						embeddedVideo: getVideoUrls(it.content?.content),
 						tags: it.tags,
 						labels: it.labels]
