@@ -146,7 +146,7 @@ class FakeData {
 								 	que trabalha no Ita\u00fa, e <a target=\"_blank\" href=\"https://twitter.com/lucasradaelli\">Lucas Radaelli</a>, 
 								 	que trabalha no Google Brasil. Nesse epis\u00f3dio vamos saber como eles aprenderam a programar sem enxergar, 
 								 	como eles fazem para desenvolver interfaces gr\u00e1ficas? E a pergunta que n\u00e3o quer calar: 
-								 	d\u00e1 para ser dev front-end sem enxergar? Groke e divirta-se conosco :)""",
+								 	d\u00e1 para ser dev front-end sem enxergar? Groke e divirta-se conosco :)"""],
 								published: 1411603200000,
 								enclosure: [[
 										href: "http://media.grokpodcast.com/grokpodcast-112-programando-no-escuro.mp3",
@@ -154,7 +154,6 @@ class FakeData {
 										type: "audio/mpeg"
 									]],
 								content: [content: null],
-							]
 						]
 					]
 					return [items: posts[0..(maxPosts>posts.size?posts.size:maxPosts)-1]]

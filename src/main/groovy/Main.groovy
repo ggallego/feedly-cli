@@ -17,15 +17,22 @@ class Main {
 			Printer.printAsJson("Posts [$props.posts]", posts)
 			if (props.media) {
 				posts.each { post -> post.enclosure?.each { 
-						if (Downloader.download(it.href, it.length)) {
+						if (Downloader.downloadMedia(it.href, it.length)) {
 							feedly.unsavePost(post.id)
 						}
 				}}
 			}
+			if (props.youtube) {
+				posts.each { post -> post.embeddedVideo?.each {
+					if (Downloader.downloadYoutube(it)) {
+						feedly.unsavePost(post.id)
+					}
+				}}
+			}
 		}
 			
-		if (props.posts.isEmpty() && props.media)
-			println "[WARN] You can only download media from posts. Please specify -posts first."
+		if (props.posts.isEmpty() && (props.media || props.youtube))
+			println "[WARN] You can only download media and youtube videos from posts. Please specify -posts first."
 
 	}
 
