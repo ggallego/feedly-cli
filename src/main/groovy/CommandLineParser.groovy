@@ -89,9 +89,10 @@ class CommandLineParser {
 		}
 
 		// Handle verbose opt
-		if (props.verbose in ConfigObject) {
+		if (props.verbose in ConfigObject)
 			props.verbose = false
-		}
+		if (props.verbose in String) 
+			props.verbose = props.verbose.toBoolean()
 
 		if (props.verbose) println "[INFO] Command line / Properties: \n ${prettyPrint(toJson(props))}"
 
