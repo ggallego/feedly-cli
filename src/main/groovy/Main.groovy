@@ -15,18 +15,24 @@ class Main {
 		if (!props.posts.isEmpty()) {
 			def posts = feedly.getPosts(props.posts, props.maxposts)
 			Printer.printAsJson("Posts [$props.posts]", posts)
+
 			if (props.media) {
 				posts.each { post -> post.enclosure?.each { 
-						if (Downloader.downloadMedia(it.href, it.length)) {
-							feedly.unsavePost(post.id)
-						}
+					if (Downloader.downloadMedia(it.href, it.length))
+						feedly.unsavePost(post.id)
 				}}
 			}
 			if (props.youtube) {
 				posts.each { post -> post.embeddedVideo?.each {
-					if (Downloader.downloadYoutube(it)) {
+					if (Downloader.downloadYoutube(it))
+						if (!props.youtubeaudio)
+							feedly.unsavePost(post.id)
+				}}
+			}
+			if (props.youtubeaudio) {
+				posts.each { post -> post.embeddedVideo?.each {
+					if (Downloader.downloadYoutubeAudio(it))
 						feedly.unsavePost(post.id)
-					}
 				}}
 			}
 		}

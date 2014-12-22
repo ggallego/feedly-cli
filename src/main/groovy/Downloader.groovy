@@ -13,11 +13,6 @@ import groovyx.net.http.HTTPBuilder
 
 class Downloader {
 
-	static boolean downloadYoutube(String url) {
-		println "[WARN] Cannot download $url. Download of youtube videos not implemented yet."
-		return false
-	}
-
 	static boolean downloadMedia(String url) {
 		downloadMedia(url, -1)
 	}
@@ -61,9 +56,37 @@ class Downloader {
 		}
 
 		if (file.size() != filesize) {
-			println "[WARN] Something went wrong... received [${file.size()}] which does not match the calculated size of [${filesize}]."
+			println "[WARN] Something went wrong on file [$filename]... received [${file.size()}] which does not match the calculated size of [${filesize}]."
 			return false
 		}
+		return true
+	}
+
+	static boolean downloadYoutube(String url) {
+		url = escapeIllegalURLCharacters(url)
+		def command = "youtube-dl --title --restrict-filenames " + url
+		def process = command.execute()
+		print("\rDownloading youtube url [$url] ...");
+		process.waitFor();
+		if (process.exitValue() != 0) {
+			println "[WARN] Something went wrong downloading youtube url [$url]: ${process.text}"
+			return false
+		}
+		println("\rDownloaded youtube url [$url].                ");
+		return true
+	}
+
+	static boolean downloadYoutubeAudio(String url) {
+		url = escapeIllegalURLCharacters(url)
+		def command = "youtube-dl --title --restrict-filenames --extract-audio --audio-format=mp3 " + url
+		def process = command.execute()
+		print("\rDownloading audio from youtube url [$url] ...");
+		process.waitFor();
+		if (process.exitValue() != 0) {
+			println "[WARN] Something went wrong downloading audio from youtube url [$url]: ${process.text}"
+			return false
+		}
+		println("\rDownloaded audio from youtube url [$url].                ");
 		return true
 	}
 

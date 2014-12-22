@@ -1,6 +1,5 @@
 import static groovy.json.JsonOutput.*
 
-
 class Printer {
 
 	static void printHTTPResponse(response) {

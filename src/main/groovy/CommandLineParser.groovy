@@ -38,6 +38,7 @@ class CommandLineParser {
 			posts =  opts.posts ?: props.posts
 			media = opts.media ?: props.media
 			youtube = opts.youtube ?: props.youtube
+			youtubeaudio = opts.youtubeaudio ?: props.youtubeaudio
 			verbose = opts.v ?: props.verbose
 		}
 
@@ -67,11 +68,15 @@ class CommandLineParser {
 		if (props.labels in ConfigObject) {
 			props.labels = false
 		}
+		if (props.labels in String)
+		props.labels = props.labels.toBoolean()
 
 		// Handle tags opt
 		if (props.tags in ConfigObject) {
 			props.tags = false
 		}
+		if (props.tags in String)
+		props.tags = props.tags.toBoolean()
 
 		// Handle posts opt
 		if (props.posts.size() == 0 || props.posts.isEmpty()) {
@@ -82,11 +87,22 @@ class CommandLineParser {
 		if (props.media in ConfigObject) {
 			props.media = false
 		}
+		if (props.media in String)
+		props.media = props.media.toBoolean()
 
 		// Handle youtube opt
 		if (props.youtube in ConfigObject) {
 			props.youtube = false
 		}
+		if (props.youtube in String)
+		props.youtube = props.youtube.toBoolean()
+
+		// Handle youtube opt
+		if (props.youtubeaudio in ConfigObject) {
+			props.youtubeaudio = false
+		}
+		if (props.youtubeaudio in String)
+		props.youtubeaudio = props.youtubeaudio.toBoolean()
 
 		// Handle verbose opt
 		if (props.verbose in ConfigObject)
@@ -121,6 +137,7 @@ class CommandLineParser {
 			posts("Fetch posts from feedly label.", args: 1, argName: 'LABEL')
 			media("Also download embedded media (mainly podcasts) from posts")
 			youtube("Also download youtube video from posts")
+			youtubeaudio("Also extract audio from youtube video from posts")
 			v(longOpt: 'verbose', 'Output debug messages' )
 			h(longOpt: 'help', "Prints this help message.")
 		}
