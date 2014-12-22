@@ -4,9 +4,9 @@ feedly-cli
 
 A groovy command line client for [Feedly](http://feedly.com/) inspired on Jarkore works on [Feednix](https://github.com/Jarkore/Feednix).
 
-This tends to be a general tool to manipulate feedly by command line, but I use it as a podcast (and youtube) downloader for feedly:
-- mark your podcasts as 'Saved' category,
-- use this tool to download your 'Saved' podcasts to a Dropbox directory, 
+This tends to be a general tool to manipulate feedly by command line, but I use it as a minimalist podcast (and youtube) downloader for feedly:
+- mark your podcasts as 'Saved' category on feedly,
+- use this tool to download your 'Saved' podcasts to a Dropbox directory (mine is in a crontab job), 
 - favorite your files or podcast directory in your Dropbox Android app,
 - use [Android Clean Music Player](https://play.google.com/store/apps/details?id=com.myskyspark.music) to play.
 
@@ -28,21 +28,15 @@ Currently using [Feednix](https://github.com/Jarkore/Feednix) method, see [here]
 ## Usage
 
 Available options (use -h for help):
+* -f,--fileconfig <arg>     Path to config file (default: [feedly.properties](blob/master/src/main/resources/feedly.properties))
 * -dev,--devtoken <TOKEN>   Feedly developer token (see feednix usage).
-* -f,--fileconfig <arg>     Path to config file (default: feedly.properties)
-* -h,--help                 Prints this help message.
-* -labels                   Fetch labels from feedly.
-* -max,--maxposts <NNN>     Fetch <number> posts from feedly (default: 50)
-* -media                    Also download the embedded media (podcasts and youtube content) from posts"
-* -posts <LABEL>            Fetch posts from feedly label.
-* -tags                     Fetch tags from feedly.
 * -uid,--userid <id>        Feedly userid.
+* -max,--maxposts <NNN>     Fetch <number> posts from feedly (default: 50)
+* -labels                   Fetch labels from feedly.
+* -tags                     Fetch tags from feedly.
+* -posts <LABEL>            Fetch posts from feedly label.
+* -media                    Also download embedded media (mainly podcasts) from posts.
+* youtube                   Also download youtube video from posts.
+* youtubeaudio              Also extract audio from youtube video from posts.
 * -v,--verbose              Output debug messages
-
-##Changelog
-
-###v0.1
-
-* list labels, tags and posts from command line
-* parse of embedded youtube videos not implemented yet
-* podcast/youtube downloader not implemented yet
+* -h,--help                 Prints this help message.
