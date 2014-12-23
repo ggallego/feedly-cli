@@ -14,7 +14,7 @@ This tends to be a general tool to manipulate feedly by command line, but I use 
 
 ### Distribution Packages
 
-(https://github.com/ggallego/feedly-cli/releases/)
+https://github.com/ggallego/feedly-cli/releases/
 
 ### From Source
 
