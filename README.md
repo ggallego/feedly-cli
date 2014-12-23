@@ -19,7 +19,14 @@ WIP
 ### From Source
 
 * `$ gradle uberjar`
+
+### Execute
+
 * `$ java -jar build/libs/feedly-cli.jar`
+
+### Dependencies
+
+The jar feedly-cli.jar is enough if you intend to query feedly or download embedded media (mainly podcasts), if you need download youtube audio and/or video urls you'll need install [youtube-dl](http://rg3.github.io/youtube-dl/) app. 
 
 ## Feedly Sign In Method
 

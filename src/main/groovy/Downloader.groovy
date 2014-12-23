@@ -63,36 +63,48 @@ class Downloader {
 	}
 
 	static boolean downloadYoutube(String url) {
-		url = escapeIllegalURLCharacters(url)
-		def command = "youtube-dl --title --restrict-filenames " + url
-		def process = command.execute()
-		print("\rDownloading youtube url [$url] ...");
-		process.waitFor();
-		if (process.exitValue() != 0) {
-			println "[WARN] Something went wrong downloading youtube url [$url]: ${process.text}"
-			return false
-		}
-		println("\rDownloaded youtube url [$url].                ");
-		return true
+		downloadYoutube(url, false)
 	}
 
 	static boolean downloadYoutubeAudio(String url) {
-		url = escapeIllegalURLCharacters(url)
-		def command = "youtube-dl --title --restrict-filenames --extract-audio --audio-format=mp3 " + url
-		def process = command.execute()
-		print("\rDownloading audio from youtube url [$url] ...");
-		process.waitFor();
-		if (process.exitValue() != 0) {
-			println "[WARN] Something went wrong downloading audio from youtube url [$url]: ${process.text}"
+		downloadYoutube(url, true)
+	}
+
+	static boolean downloadYoutube(String url, boolean extractAudio) {
+		if (!isYoutubeDownloaderAvailable()) {
+			println("[WARN] Youtube-dl app is not available, ${extractAudio?'audio':'video'} from url [$url] cant be downloaded.");
 			return false
 		}
-		println("\rDownloaded audio from youtube url [$url].                ");
+		url = escapeIllegalURLCharacters(url)
+		def command = "youtube-dl"
+		command += " --title"
+		command += " --restrict-filenames"
+		if (extractAudio) {
+			command += " --extract-audio"
+			command += " --audio-format=mp3"
+		}
+		command += " " + url
+		def process = command.execute()
+		print("\rDownloading ${extractAudio?'audio':'video'} from url [$url] ...");
+		process.waitFor()
+		if (process.exitValue() != 0) {
+			println "\n[WARN] Something went wrong when downloading ${extractAudio?'audio':'video'} from url [$url]: ${process.text}"
+			return false
+		}
+		println("\rDownloaded ${extractAudio?'audio':'video'} from url [$url].                ");
 		return true
 	}
 
 	// ####################
 	
-	static String escapeIllegalURLCharacters(String url){
+	private static boolean isYoutubeDownloaderAvailable() {
+		def command = "which youtube-dl"
+		def process = command.execute()
+		process.waitFor()
+		return process.exitValue() == 0
+	}
+	
+	private static String escapeIllegalURLCharacters(String url){
 		// TODO: fazer um escape mais completo disso. Alias, precisa?
 		def escapedUrl = url?.replaceAll(' ', '%20')
 		escapedUrl = url?.replaceAll('Ç', '%C3%87')
