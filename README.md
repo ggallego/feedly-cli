@@ -7,8 +7,8 @@ A groovy command line client for [Feedly](http://feedly.com/) inspired on Jarkor
 This tends to be a general tool to manipulate feedly by command line, but I use it as a minimalist podcast (and youtube) downloader for feedly:
 - mark your podcasts as 'Saved' category on feedly,
 - use this tool to download your 'Saved' podcasts to a Dropbox directory (mine is in a crontab job), 
-- favorite your files or podcast directory in your Dropbox Android app,
-- use [Android Clean Music Player](https://play.google.com/store/apps/details?id=com.myskyspark.music) to play.
+- favorite your files or podcasts directory in your Dropbox Android app,
+- use a simple directory player like [Android Clean Music Player](https://play.google.com/store/apps/details?id=com.myskyspark.music) to play.
 
 ## Install
 
@@ -30,7 +30,10 @@ The jar feedly-cli.jar is enough if you intend to query feedly or download embed
 
 ## Feedly Sign In Method
 
-Currently using [Feednix](https://github.com/Jarkore/Feednix) method, see [here](https://github.com/Jarkore/Feednix#clarification-on-sign-in-method-please-read).
+Currently using [Feednix](https://github.com/Jarkore/Feednix) method, see [here](https://github.com/Jarkore/Feednix#clarification-on-sign-in-method-please-read), or follow the instructions:
+* If you try to access feedly without a developer token, feedly-cli will open a browser pointing to the Feedly developer page.
+* Sign in using your feedly credentials, copy the 'user id' and retrive the 'developer token' from your email.
+* Inform the --devtoken and --userid arguments in CLI or copy it to a feedly.properties file.
 
 ## Usage
 

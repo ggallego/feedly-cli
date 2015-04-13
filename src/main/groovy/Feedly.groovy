@@ -1,4 +1,8 @@
 import static groovyx.net.http.ContentType.*
+
+import org.apache.commons.lang.SystemUtils;
+
+import groovyx.net.http.HttpResponseException;
 import groovyx.net.http.RESTClient
 
 
@@ -120,9 +124,25 @@ class Feedly {
 		def feedly = new RESTClient("https://cloud.feedly.com/v3/")
 		feedly.headers.Authorization = "OAuth " + devtoken
 		feedly.contentType = JSON
-		def resp = feedly.get(path: path, queryString: queryString)
-		if (verbose) Printer.printHTTPResponse(resp)
-		return resp.data
+		try {
+			def resp = feedly.get(path: path, queryString: queryString)
+			if (verbose) Printer.printHTTPResponse(resp)
+			return resp.data
+		} catch (HttpResponseException e) {
+			if (e.message.contains("Unauthorized")) registerDevtokenForFeedly()
+		}
+	}
+	
+	private registerDevtokenForFeedly() {
+		println "[ERROR] You must get an 'developer token' to access feedly from command line."
+		println "------- Now you will be redirected to Feedly developer login page at 'https://feedly.com/v3/auth/dev/'."		
+		println "------- Please sign in, copy your 'user id' and retrive the 'developer token' from your email."
+		println "------- Inform the --devtoken and --userid arguments in CLI or copy it to a feedly.properties file."
+		println "------- And restart the feedly-cli. Opening browser..."
+		if (SystemUtils.IS_OS_LINUX) "xdg-open https://feedly.com/v3/auth/dev/".execute()
+		if (SystemUtils.IS_OS_MAC) "open https://feedly.com/v3/auth/dev/".execute()
+		if (SystemUtils.IS_OS_WINDOWS) "open https://feedly.com/v3/auth/dev/".execute()
+		System.exit(-1)
 	}
 	
 }
