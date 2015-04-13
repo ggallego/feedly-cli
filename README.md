@@ -39,7 +39,6 @@ Currently using [Feednix](https://github.com/Jarkore/Feednix) method, see [here]
 
 Available options (use -h for help):
 * -f,--fileconfig <arg>     Path to config file (default: [feedly.properties](src/main/resources/feedly.properties))
-https://github.com/ggallego/feedly-cli/blob/master/src/main/resources/feedly.properties
 * -dev,--devtoken <TOKEN>   Feedly developer token (see feednix usage).
 * -uid,--userid <id>        Feedly userid.
 * -max,--maxposts <NNN>     Fetch <number> posts from feedly (default: 50)
