@@ -138,7 +138,8 @@ class Feedly {
 		println "------- Now you will be redirected to Feedly developer login page at 'https://feedly.com/v3/auth/dev/'."		
 		println "------- Please sign in, copy your 'user id' and retrive the 'developer token' from your email."
 		println "------- Inform the --devtoken and --userid arguments in CLI or copy it to a feedly.properties file."
-		println "------- And restart the feedly-cli. Opening browser..."
+		println "------- And restart the feedly-cli. Opening your browser in 3 secs..."
+		Thread.sleep(3000);
 		if (SystemUtils.IS_OS_LINUX) "xdg-open https://feedly.com/v3/auth/dev/".execute()
 		if (SystemUtils.IS_OS_MAC) "open https://feedly.com/v3/auth/dev/".execute()
 		if (SystemUtils.IS_OS_WINDOWS) "open https://feedly.com/v3/auth/dev/".execute()
