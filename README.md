@@ -46,7 +46,7 @@ Available options (use -h for help):
 * -tags                     Fetch tags from feedly.
 * -posts <LABEL>            Fetch posts from feedly label.
 * -media                    Also download embedded media (mainly podcasts) from posts.
-* youtube                   Also download youtube video from posts.
-* youtubeaudio              Also extract audio from youtube video from posts.
+* -youtube                   Also download youtube video from posts.
+* -youtubeaudio              Also extract audio from youtube video from posts.
 * -v,--verbose              Output debug messages
 * -h,--help                 Prints this help message.
