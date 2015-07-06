@@ -30,7 +30,7 @@ The jar feedly-cli.jar is enough if you intend to query feedly or download embed
 
 ## Feedly Sign In Method
 
-Currently using [Feednix](https://github.com/Jarkore/Feednix) method, see [here](https://github.com/Jarkore/Feednix#clarification-on-sign-in-method-please-read), or follow the instructions:
+Currently using [Feednix](https://github.com/Jarkore/Feednix) method, see [here](https://github.com/Jarkore/Feednix#notes-on-sign-in-method-and-rate-limiting-please-read), or follow the instructions:
 * If you try to access feedly without a developer token, feedly-cli will open a browser pointing to the Feedly developer page.
 * Sign in using your feedly credentials, copy the 'user id' and retrive the 'developer token' from your email.
 * Inform the --devtoken and --userid arguments in CLI or copy it to a feedly.properties file.
@@ -38,7 +38,7 @@ Currently using [Feednix](https://github.com/Jarkore/Feednix) method, see [here]
 ## Usage
 
 Available options (use -h for help):
-* -f,--fileconfig <arg>     Path to config file (default: [feedly.properties](blob/master/src/main/resources/feedly.properties))
+* -f,--fileconfig <arg>     Path to config file (default: [feedly.properties](src/main/resources/feedly.properties))
 * -dev,--devtoken <TOKEN>   Feedly developer token (see feednix usage).
 * -uid,--userid <id>        Feedly userid.
 * -max,--maxposts <NNN>     Fetch <number> posts from feedly (default: 50)
@@ -46,7 +46,7 @@ Available options (use -h for help):
 * -tags                     Fetch tags from feedly.
 * -posts <LABEL>            Fetch posts from feedly label.
 * -media                    Also download embedded media (mainly podcasts) from posts.
-* youtube                   Also download youtube video from posts.
-* youtubeaudio              Also extract audio from youtube video from posts.
+* -youtube                   Also download youtube video from posts.
+* -youtubeaudio              Also extract audio from youtube video from posts.
 * -v,--verbose              Output debug messages
 * -h,--help                 Prints this help message.
