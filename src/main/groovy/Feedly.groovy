@@ -70,9 +70,8 @@ class Feedly {
 						title:     it.title, 
 						summary:   it.summary?.content,
 						published: it.published,
-						enclosure: it.enclosure,
+						enclosure: getUniqEnclosure(it.enclosure),
 						content:   it.content?.content,
-						// TODO: Nao esta pegando o nerdologia!
 						embeddedVideo: getVideoUrls(it.summary?.content, it.content?.content),
 						tags: it.tags,
 						labels: it.labels]
@@ -109,6 +108,28 @@ class Feedly {
 
 	// ########## private behaviour
 	
+	private List getUniqEnclosure(enclosures) {
+        if (enclosures?.size() < 2)
+            return enclosures
+        def uniques = []
+        enclosures.each { e ->
+            def uniq = uniques.find { 
+                println it
+                it.href == e.href 
+            }
+            if (uniq == null)
+                uniques << e
+            else {
+                if (uniq.href == e.ref)
+                    if (uniq.length < e.length)
+                        uniq.length = e.length
+                    if (uniq.type?.trim())
+                        uniq.type = e.type
+            }
+        }
+        return uniques
+	}
+
 	private List getVideoUrls(String summary, String content) {
 		return getVideoUrls(summary) + getVideoUrls(content)
 	}

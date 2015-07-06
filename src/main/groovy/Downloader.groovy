@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DecimalFormat;
 
 import org.apache.commons.lang.math.RandomUtils;
 
@@ -23,6 +24,7 @@ class Downloader {
 		String filename = url.tokenize("/")[-1]
 		filename = filename.replaceAll(/\&.*/, "")
 		filename = filename.replaceAll(/\?.*/, "")
+
 		File file = new File(filename)
 		while (file.exists()) {
 			print("[WARN] File [$filename] exists, generating new filename.");
@@ -39,24 +41,29 @@ class Downloader {
 			return false
 		}
 		
-		int bytes = 0;
-		int filesize = connection.getContentLength()?:length;
+		long bytes = 0;
+		long filesize = connection.getContentLength()?:length;
+        def fmt = new DecimalFormat("###,###,###")
+        def fmt_filename = filename.size() <= 66 ? filename : filename.take(60)+"...mp3"
 		
 		OutputStream outstream = new FileOutputStream(filename);
 		try {
 			while (true) {
 				outstream.write(instream.readUnsignedByte());
 				bytes++;
-				if (bytes % 100000 == 0)
-					print("\rDownloading [$filename] with [$filesize] bytes. Stats: percentage [${Math.round(bytes*100/filesize)}%], bytes [${bytes}].");
+//				if (bytes % 1024 == 0)
+//				if (bytes % 1000 == 0)
+				if (bytes % 10000 == 0)
+//				if (bytes % 100000 == 0)
+					print("\rDownloading [$fmt_filename] with [${fmt.format(filesize)} bytes]. Stats: percentage [${Math.round(bytes*100/filesize)}%], processed [${fmt.format(bytes)} bytes].");
 			}
 		} catch (EOFException e) {
 			outstream.close();
-			println("\rDownloaded [$filename] with [$bytes] bytes.                                                       ");
+			println("\rDownloaded file [$filename] with [${fmt.format(bytes)} bytes].                                                       ");
 		}
 
 		if (file.size() != filesize) {
-			println "[WARN] Something went wrong on file [$filename]... received [${file.size()}] which does not match the calculated size of [${filesize}]."
+			println "[WARN] Something went wrong on file [$filename]... received [${fmt.format(file.size())} bytes] which does not match the calculated size of [${fmt.format(filesize)} bytes]."
 			return false
 		}
 		return true
@@ -112,16 +119,4 @@ class Downloader {
 	}
 		
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
