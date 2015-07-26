@@ -18,6 +18,14 @@ class Main {
 
 			if (props.media) {
 				posts.each { post -> post.enclosure?.each { 
+                    if (it.href.contains("youtube")) {
+                        if (props.youtube)
+					        if (!Downloader.downloadYoutube(it.href))
+                                return
+                        if (props.youtubeaudio)
+					        if (!Downloader.downloadYoutubeAudio(it.href))
+                                return
+                    }
 					if (Downloader.downloadMedia(it.href, it.length))
 						feedly.unsavePost(post.id)
 				}}

@@ -136,7 +136,7 @@ class Feedly {
 
 	private List getVideoUrls(String text) {
 		def embeddedVideo = []
-		def matcher = text =~ /"(((https?:\/\/)?)(www\.)?(youtube\.com|youtu.be|youtube)\/(watch|embed).+?)"/
+		def matcher = text =~ Downloader.PATTERN_YOUTUBE
 		matcher.each {embeddedVideo << it[1]}
 		return embeddedVideo.unique()
 	}

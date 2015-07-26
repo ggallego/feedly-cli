@@ -14,6 +14,8 @@ import groovyx.net.http.HTTPBuilder
 
 class Downloader {
 
+    static String PATTERN_YOUTUBE = /"(((https?:\/\/)?)(www\.)?(youtube\.com|youtu.be|youtube)\/(watch|embed).+?)"/
+
 	static boolean downloadMedia(String url) {
 		downloadMedia(url, -1)
 	}
