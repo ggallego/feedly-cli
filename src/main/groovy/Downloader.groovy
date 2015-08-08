@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 
+import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.math.RandomUtils;
 
 import groovyx.net.http.HTTPBuilder
@@ -107,7 +108,11 @@ class Downloader {
 	// ####################
 	
 	private static boolean isYoutubeDownloaderAvailable() {
-		def command = "which youtube-dl"
+		def command = "youtube-dl"
+		if (SystemUtils.IS_OS_LINUX) command = "which " + command
+		if (SystemUtils.IS_OS_MAC) command = "which " + command
+		if (SystemUtils.IS_OS_WINDOWS) command = "where " + command
+
 		def process = command.execute()
 		process.waitFor()
 		return process.exitValue() == 0
