@@ -17,11 +17,33 @@ class Downloader {
 
     static String PATTERN_YOUTUBE = /"(((https?:\/\/)?)(www\.)?(youtube\.com|youtu.be|youtube)\/(watch|embed).+?)"/
 
-	static boolean downloadMedia(String url) {
-		downloadMedia(url, -1)
-	}
+    static boolean downloadMediaWithWGet(String url, Integer length) {
+		if (!isWGetAvailable()) {
+			println("[WARN] wget app is not available, reverting to embedded.");
+			return false
+		}
 
-	static boolean downloadMedia(String url, Integer length) {
+		url = escapeIllegalURLCharacters(url)
+		String filename = url.tokenize("/")[-1]
+		filename = filename.replaceAll(/\&.*/, "")
+		filename = filename.replaceAll(/\?.*/, "")
+
+		def command = "wget"
+		command += " -O " + filename
+		command += " " + url
+		def process = command.execute()
+		print("\rDownloading media from url [$url] ...");
+
+		process.waitFor()
+		if (process.exitValue() != 0) {
+			println "\n[WARN] Something went wrong when downloading media from url [$url]: ${process.text}"
+			return false
+		}
+		println("\rDownloaded media from url [$url].                ");
+		return true
+    }
+
+	static boolean downloadMediaWithEmbedded(String url, Integer length) {
 		url = escapeIllegalURLCharacters(url)
 		
 		String filename = url.tokenize("/")[-1]
@@ -109,6 +131,17 @@ class Downloader {
 	
 	private static boolean isYoutubeDownloaderAvailable() {
 		def command = "youtube-dl"
+		if (SystemUtils.IS_OS_LINUX) command = "which " + command
+		if (SystemUtils.IS_OS_MAC) command = "which " + command
+		if (SystemUtils.IS_OS_WINDOWS) command = "where " + command
+
+		def process = command.execute()
+		process.waitFor()
+		return process.exitValue() == 0
+	}
+
+	private static boolean isWGetAvailable() {
+		def command = "wget"
 		if (SystemUtils.IS_OS_LINUX) command = "which " + command
 		if (SystemUtils.IS_OS_MAC) command = "which " + command
 		if (SystemUtils.IS_OS_WINDOWS) command = "where " + command

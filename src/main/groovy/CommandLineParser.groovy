@@ -39,6 +39,7 @@ class CommandLineParser {
 			media = opts.media ?: props.media
 			youtube = opts.youtube ?: props.youtube
 			youtubeaudio = opts.youtubeaudio ?: props.youtubeaudio
+            downloader = opts.downloader ?: props.downloader
 			verbose = opts.v ?: props.verbose
 		}
 
@@ -104,6 +105,11 @@ class CommandLineParser {
 		if (props.youtubeaudio in String)
 		props.youtubeaudio = props.youtubeaudio.toBoolean()
 
+		// Handle downloader opt
+		if (props.downloader.size() == 0 || props.downloader.isEmpty()) {
+			props.downloader = 'embedded'
+		}
+
 		// Handle verbose opt
 		if (props.verbose in ConfigObject)
 			props.verbose = false
@@ -138,6 +144,7 @@ class CommandLineParser {
 			media("Also download embedded media (mainly podcasts) from posts")
 			youtube("Also download youtube video from posts")
 			youtubeaudio("Also extract audio from youtube video from posts")
+            downloader("Define the media downloader to use (default: embedded). Available providers: 'wget'.", args: 1, argName: 'PROVIDER')
 			v(longOpt: 'verbose', 'Output debug messages' )
 			h(longOpt: 'help', "Prints this help message.")
 		}

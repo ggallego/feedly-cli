@@ -26,8 +26,13 @@ class Main {
 					        if (!Downloader.downloadYoutubeAudio(it.href))
                                 return
                     }
-					if (Downloader.downloadMedia(it.href, it.length))
-						feedly.unsavePost(post.id)
+                    if (props.downloader == 'wget') {
+    					if (Downloader.downloadMediaWithWGet(it.href, it.length))
+    						feedly.unsavePost(post.id)
+                    } else {
+    					if (Downloader.downloadMediaWithEmbedded(it.href, it.length))
+    						feedly.unsavePost(post.id)
+                    }
 				}}
 			}
 			if (props.youtube) {
