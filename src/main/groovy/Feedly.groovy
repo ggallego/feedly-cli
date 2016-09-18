@@ -63,7 +63,7 @@ class Feedly {
 		// TODO: fazer um escape mais completo disso. Alias, precisa?
 		streamId = Downloader.escapeIllegalURLCharacters(streamId)
 		def _posts = []
-		if (verbose) println "[INFO] Retrieving [$maxPosts] Posts[${label}]..."
+		if (verbose) println "[INFO] Retrieving [$maxPosts] posts from label [${label}]..."
 		def data = getDataFromPath("streams/contents", "unreadOnly=true&ranked=newest&count=" + maxPosts +"&streamId=" + streamId)?.items.each {
 			_posts << [	id: it.id,
 						origin:	it.origin?.title,
@@ -114,7 +114,6 @@ class Feedly {
         def uniques = []
         enclosures.each { e ->
             def uniq = uniques.find { 
-                println it
                 it.href == e.href 
             }
             if (uniq == null)

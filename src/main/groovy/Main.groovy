@@ -14,7 +14,12 @@ class Main {
 
 		if (!props.posts.isEmpty()) {
 			def posts = feedly.getPosts(props.posts, props.maxposts)
-			Printer.printAsJson("Posts [$props.posts]", posts)
+			if (props.verbose) { 
+				Printer.printAsJson("[INFO] Posts with label [$props.posts]", posts)
+			} else {
+				println "Posts with label [$props.posts]"
+				posts.each { post -> post.enclosure?.each { println it } }
+			}
 
 			if (props.media) {
 				posts.each { post -> post.enclosure?.each { 
@@ -30,7 +35,7 @@ class Main {
     					if (Downloader.downloadMediaWithWGet(it.href, it.length))
     						feedly.unsavePost(post.id)
                     } else {
-    					if (Downloader.downloadMediaWithEmbedded(it.href, it.length))
+    					if (Downloader.downloadMediaWithEmbedded(it.href, it.length, props.verbose))
     						feedly.unsavePost(post.id)
                     }
 				}}

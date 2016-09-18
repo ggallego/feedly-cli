@@ -5,7 +5,7 @@ import java.io.EOFException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.net.URLConnection;
+import java.net.HttpURLConnection;
 import java.text.DecimalFormat;
 
 import org.apache.commons.lang.SystemUtils;
@@ -17,7 +17,7 @@ class Downloader {
 
     static String PATTERN_YOUTUBE = /"(((https?:\/\/)?)(www\.)?(youtube\.com|youtu.be|youtube)\/(watch|embed).+?)"/
 
-    static boolean downloadMediaWithWGet(String url, Integer length) {
+    static boolean downloadMediaWithWGet(String url, Integer length, boolean verbose = false) {
 		if (!isWGetAvailable()) {
 			println("[WARN] wget app is not available, reverting to embedded.");
 			return false
@@ -43,7 +43,7 @@ class Downloader {
 		return true
     }
 
-	static boolean downloadMediaWithEmbedded(String url, Integer length) {
+	static boolean downloadMediaWithEmbedded(String url, Integer length, boolean verbose = false) {
 		url = escapeIllegalURLCharacters(url)
 		
 		String filename = url.tokenize("/")[-1]
@@ -57,7 +57,27 @@ class Downloader {
 			file = new File(filename)
 		}
 		
-		URLConnection connection = new URL(url).openConnection();
+		HttpURLConnection connection = new URL(url).openConnection();
+		connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB;     rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13 (.NET CLR 3.5.30729)");
+    
+		if (verbose) println "[INFO] Download from URL [$url]";
+		def response = [status: connection.getResponseCode(),
+						contentType: connection.getContentType(),
+						headers: connection.getHeaderFields(),
+						data: null];
+		if (verbose) Printer.printHTTPResponse(response)
+
+		// check redirects
+		if (response.status != HttpURLConnection.HTTP_OK) {
+			if (response.status == HttpURLConnection.HTTP_MOVED_TEMP
+				|| response.status == HttpURLConnection.HTTP_MOVED_PERM
+				|| response.status == HttpURLConnection.HTTP_SEE_OTHER) {
+				String newUrl = connection.getHeaderField("Location");
+				connection = new URL(newUrl).openConnection();
+				if (verbose) println "[INFO] Redirected to URL [$newUrl]";
+			}
+		}
+
 		DataInputStream instream = null
 		try {
 			instream = new DataInputStream(connection.getInputStream());

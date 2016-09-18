@@ -7,7 +7,7 @@ class Printer {
 		println("HTTP Status: $response.status")
 		println("HTTP ContentType: $response.contentType")
 		response.headers.each {println "HTTP Header: $it" }
-		println("HTTP Body: $response.data.toString")
+		println("HTTP Body: ${response.data?.toString}")
 		println("<===============")
 	}
 	
