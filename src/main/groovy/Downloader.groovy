@@ -107,7 +107,7 @@ class Downloader {
 			println("\rDownloaded file [$filename] with [${fmt.format(bytes)} bytes].                                                       ");
 		}
 
-		if (file.size() != filesize) {
+		if (filesize >=0 && filesize != file.size()) {
 			println "[WARN] Something went wrong on file [$filename]... received [${fmt.format(file.size())} bytes] which does not match the calculated size of [${fmt.format(filesize)} bytes]."
 			return false
 		}
