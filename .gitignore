@@ -1,10 +1,11 @@
+.DS_Store
 .gradle
 .gradletasknamecache
+.classpath
+.project
+.settings/
 build/
 bin/
 
 # Ignore Gradle GUI config
 gradle-app.setting
-/.classpath
-/.project
-/.settings/
