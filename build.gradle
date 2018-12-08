@@ -6,7 +6,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+    compile 'org.codehaus.groovy:groovy-all:2.5.4'
 	compile	'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
 	compile	'commons-cli:commons-cli:1.4'
 	compile	'oauth.signpost:signpost-core:1.2.1.2'
