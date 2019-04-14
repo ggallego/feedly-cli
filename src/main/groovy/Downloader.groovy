@@ -129,7 +129,7 @@ class Downloader {
 		}
 		url = escapeIllegalURLCharacters(url)
 		def command = "youtube-dl"
-		command += " --title"
+		//command += " --title"
 		command += " --restrict-filenames"
 		if (extractAudio) {
 			command += " --extract-audio"
